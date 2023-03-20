@@ -4,8 +4,6 @@
 *.dll
 *.so
 *.dylib
-exec/
-.DS_Store
 
 # Test binary, built with `go test -c`
 *.test
@@ -15,3 +13,7 @@ exec/
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+exec/
+.DS_Store
+go.sum
