@@ -5,7 +5,7 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/lukamindo/pet-reminder/handler"
-	"github.com/lukamindo/pet-reminder/watcher"
+	"github.com/lukamindo/pet-reminder/helper/watcher"
 )
 
 func main() {

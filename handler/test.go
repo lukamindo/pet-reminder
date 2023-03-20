@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/labstack/echo"
-	"github.com/lukamindo/pet-reminder/server"
+	"github.com/lukamindo/pet-reminder/helper/server"
 )
 
 func test() echo.HandlerFunc {
