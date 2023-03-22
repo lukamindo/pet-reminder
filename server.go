@@ -4,7 +4,8 @@ import (
 	"log"
 
 	"github.com/labstack/echo"
-	"github.com/lukamindo/pet-reminder/handler"
+	"github.com/lukamindo/pet-reminder/api/handler"
+	"github.com/lukamindo/pet-reminder/app/db"
 	"github.com/lukamindo/pet-reminder/helper/watcher"
 )
 
@@ -16,6 +17,7 @@ func main() {
 	}()
 	watcher.StartWatcher()
 
+	db.ConnectDatabase()
 	e := echo.New()
 	handler.New(e)
 

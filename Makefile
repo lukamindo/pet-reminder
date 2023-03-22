@@ -1,2 +1,2 @@
 run:
-	@ go build -o ./exec .  && ./exec/pet-reminder
+	@ go build -o ./build .  && ./build/pet-reminder

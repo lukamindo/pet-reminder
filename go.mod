@@ -3,7 +3,10 @@ module github.com/lukamindo/pet-reminder
 go 1.19
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/jmoiron/sqlx v1.3.5
 	github.com/labstack/echo v3.3.10+incompatible
+	github.com/lib/pq v1.2.0
 	gopkg.in/fsnotify.v1 v1.4.7
 )
 
