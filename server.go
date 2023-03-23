@@ -1,11 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/labstack/echo"
 	"github.com/lukamindo/pet-reminder/api/handler"
-	"github.com/lukamindo/pet-reminder/app/db"
+	"github.com/lukamindo/pet-reminder/helper/conn"
 	"github.com/lukamindo/pet-reminder/helper/watcher"
 )
 
@@ -17,7 +18,7 @@ func main() {
 	}()
 	watcher.StartWatcher()
 
-	db.ConnectDatabase()
+	fmt.Println(conn.New())
 	e := echo.New()
 	handler.New(e)
 

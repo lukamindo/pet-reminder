@@ -2,6 +2,8 @@ package handler
 
 import (
 	"github.com/labstack/echo"
+	"github.com/lukamindo/pet-reminder/app/domain"
+	"github.com/lukamindo/pet-reminder/helper/conn"
 	"github.com/lukamindo/pet-reminder/helper/server"
 )
 
@@ -15,7 +17,8 @@ func adminGroup(g *echo.Group) {
 }
 
 func authenticationGroup(g *echo.Group) {
-	g.POST("/signin", signInUser())
+	as := domain.NewAuthService(conn.New())
+	g.POST("/signin", signInUser(as))
 	// g.POST("/signup", test())
 	// g.GET("/userDetails", test())
 }
@@ -27,10 +30,16 @@ func test() echo.HandlerFunc {
 	}
 }
 
-func signInUser() echo.HandlerFunc {
+func signInUser(s domain.AuthService) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		ret := "hi"
-		return server.Success(c, ret)
+		token, err := s.Login(c.Request().Context())
+		if token == nil {
+			return err
+		}
+		if err != nil {
+			return err
+		}
+		return server.Success(c, "shemovida")
 	}
 }
 
