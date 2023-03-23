@@ -167,7 +167,7 @@ func watchFileChanges() {
 }
 
 func rebuild() {
-	cmd := exec.Command("go", "build", "-o", "./", "./")
+	cmd := exec.Command("go", "build", "-o", "./build", "./")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	err := cmd.Run()
