@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/jmoiron/sqlx"
+	"github.com/lukamindo/pet-reminder/app/request"
 )
 
 type (
@@ -18,7 +19,7 @@ type (
 	}
 )
 
-// UserByEmail returns Player
+// UserByEmail returns User
 func UserByEmail(c context.Context, db *sqlx.DB, email string) (*User, error) {
 	var u User
 	err := sqlx.GetContext(c, db, &u, `
@@ -37,4 +38,18 @@ func UserByEmail(c context.Context, db *sqlx.DB, email string) (*User, error) {
 		return nil, err
 	}
 	return &u, nil
+}
+
+// CreateUser inserts User
+func CreateUser(c context.Context, db *sqlx.DB, urr request.RegistationParams) error {
+	_, err := sqlx.NamedExecContext(c, db, `
+		INSERT INTO users
+			(username
+			,email
+			,password)
+		VALUES
+			(:username
+			,:email
+			,:password)`, urr)
+	return err
 }
