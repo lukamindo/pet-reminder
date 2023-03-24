@@ -6,10 +6,16 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/lukamindo/pet-reminder/app/request"
 	"golang.org/x/oauth2"
 	facebookOAuth "golang.org/x/oauth2/facebook"
 )
+
+// FacebookUserDetails is struct used for user details
+type FacebookUserDetails struct {
+	ID    string
+	Name  string
+	Email string
+}
 
 // GetFacebookOAuthConfig will return the config to call facebook Login
 func GetFacebookOAuthConfig() *oauth2.Config {
@@ -28,8 +34,8 @@ func GetRandomOAuthStateString() string {
 }
 
 // GetUserInfoFromFacebook will return information of user which is fetched from facebook
-func GetUserInfoFromFacebook(token string) (*request.FacebookUserDetails, error) {
-	var fbUserDetails request.FacebookUserDetails
+func GetUserInfoFromFacebook(token string) (*FacebookUserDetails, error) {
+	var fbUserDetails FacebookUserDetails
 	facebookUserDetailsRequest, _ := http.NewRequest("GET", "https://graph.facebook.com/me?fields=id,name,email&access_token="+token, nil)
 	facebookUserDetailsResponse, facebookUserDetailsResponseError := http.DefaultClient.Do(facebookUserDetailsRequest)
 
