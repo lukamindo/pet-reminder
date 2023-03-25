@@ -87,8 +87,8 @@ func InitFacebookLogin() echo.HandlerFunc {
 // HandleFacebookLogin function will handle the Facebook Login Callback
 func HandleFacebookLogin() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		state := c.FormValue("state")
-		code := c.FormValue("code")
+		code := c.QueryParam("code")
+		state := c.QueryParam("state")
 
 		if state != auth.GetRandomOAuthStateString() {
 			return c.Redirect(http.StatusTemporaryRedirect, "/?invalidlogin=true")
@@ -118,7 +118,7 @@ func HandleFacebookLogin() echo.HandlerFunc {
 		cookie := &http.Cookie{Name: "Authorization", Value: "Bearer " + authToken, Path: "/"}
 		c.SetCookie(cookie)
 
-		return c.Redirect(http.StatusTemporaryRedirect, "/profile")
+		return c.Redirect(http.StatusTemporaryRedirect, "https://youtube.com")
 	}
 }
 
