@@ -3,14 +3,14 @@ package auth
 import (
 	"time"
 
-	jwt "github.com/dgrijalva/jwt-go"
+	jwt "github.com/golang-jwt/jwt/v5"
 )
 
 // Claims is  a struct that will be encoded to a JWT.
 // jwt.StandardClaims is an embedded type to provide expiry time
 type Claims struct {
-	Email string
-	jwt.StandardClaims
+	Email string `json:"email"`
+	jwt.RegisteredClaims
 }
 
 var jwtSecretKey = []byte("jwt_secret_key")
@@ -20,8 +20,8 @@ func CreateJWT(email string) (string, error) {
 	expirationTime := time.Now().Add(5 * time.Minute)
 	claims := &Claims{
 		Email: email,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expirationTime.Unix(),
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(expirationTime),
 		},
 	}
 

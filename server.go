@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/lukamindo/pet-reminder/api/handler"
 	"github.com/lukamindo/pet-reminder/helper/conn"
 )
@@ -14,9 +15,19 @@ func main() {
 	// }()
 	// watcher.StartWatcher()
 
+	// Connect to DB
 	conn.New()
+
+	// Initialize Echo
 	e := echo.New()
+
+	// Middleware
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
+	// Router
 	handler.New(e)
 
+	// Listen and Serve
 	e.Logger.Fatal(e.Start(":1323"))
 }

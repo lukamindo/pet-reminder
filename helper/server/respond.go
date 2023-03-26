@@ -3,7 +3,7 @@ package server
 import (
 	"net/http"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 // Success wraps payoad in data field and responds with corresponding json

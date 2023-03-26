@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/jmoiron/sqlx"
-	"github.com/lukamindo/pet-reminder/app/request"
 )
 
 type (
@@ -20,7 +19,7 @@ type (
 )
 
 // UserByEmail returns User
-func UserByEmail(c context.Context, db *sqlx.DB, email string) (*User, error) {
+func UserByEmail(c context.Context, db sqlx.ExtContext, email string) (*User, error) {
 	var u User
 	err := sqlx.GetContext(c, db, &u, `
 		SELECT 
@@ -40,16 +39,26 @@ func UserByEmail(c context.Context, db *sqlx.DB, email string) (*User, error) {
 	return &u, nil
 }
 
-// CreateUser inserts User
-func CreateUser(c context.Context, db *sqlx.DB, urr request.RegistationParams) error {
-	_, err := sqlx.NamedExecContext(c, db, `
-		INSERT INTO users
-			(username
-			,email
-			,password)
-		VALUES
-			(:username
-			,:email
-			,:password)`, urr)
-	return err
+// UserCreate create user in database
+func UserCreate(c context.Context, db sqlx.ExtContext, user User) (*int, error) {
+	query, args, err := sqlx.Named(`
+	INSERT INTO users
+		(username
+		,email
+		,password)
+	VALUES
+		(:username
+		,LOWER(:email)
+		,:password)
+	RETURNING id`, user)
+	if err != nil {
+		return nil, err
+	}
+	query = sqlx.Rebind(sqlx.DOLLAR, query)
+	var playerID int
+	err = db.QueryRowxContext(c, query, args...).Scan(&playerID)
+	if err != nil {
+		return nil, err
+	}
+	return &playerID, nil
 }
