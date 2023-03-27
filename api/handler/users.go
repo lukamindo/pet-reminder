@@ -14,7 +14,7 @@ func userRegisterHandler(s domain.UserService) echo.HandlerFunc {
 
 		err := c.Bind(&urr)
 		if err != nil {
-			return echo.ErrBadRequest
+			return server.ErrBadRequest(err)
 		}
 
 		user, err := s.Register(c.Request().Context(), urr)
@@ -35,7 +35,7 @@ func UserLoginHandler(s domain.UserService) echo.HandlerFunc {
 
 		err := c.Bind(&ulr)
 		if err != nil {
-			return err
+			return server.ErrBadRequest(err)
 		}
 
 		loginResponse, err := s.Login(c.Request().Context(), ulr)

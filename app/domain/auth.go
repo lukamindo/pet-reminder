@@ -2,7 +2,6 @@ package domain
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/lukamindo/pet-reminder/app/db"
@@ -10,6 +9,7 @@ import (
 	"github.com/lukamindo/pet-reminder/app/response"
 	"github.com/lukamindo/pet-reminder/helper/auth"
 	"github.com/lukamindo/pet-reminder/helper/encrypt"
+	"github.com/lukamindo/pet-reminder/helper/server"
 	"github.com/lukamindo/pet-reminder/helper/validator"
 )
 
@@ -29,24 +29,24 @@ func (s UserService) Register(c context.Context, urr request.UserRegister) (*res
 
 	err := validator.ValidateStruct(urr)
 	if err != nil {
-		return nil, err
+		return nil, server.ErrBadRequest(err)
 	}
 
 	hashedPwd, err := encrypt.Password(urr.Password)
 	if err != nil {
-		return nil, fmt.Errorf("internal server error, while encrypting password")
+		return nil, server.ErrInternalDomain(err)
 	}
 
 	urrDB := urr.DB(hashedPwd)
 	_, err = db.UserCreate(c, s.connDB, urrDB)
 	if err != nil {
-		return nil, err
+		return nil, server.ErrInternalDB(err)
 	}
 
-	// token, err := auth.CreateJWT(urr.Email)
-	// if token == "" {
-	// 	return nil, fmt.Errorf("internal server error")
-	// }
+	token, err := auth.CreateJWT(urr.Email)
+	if token == "" {
+		return nil, server.ErrInternalDomain(err)
+	}
 
 	ret := response.Player{
 		Email: urr.Email,
@@ -60,7 +60,7 @@ func (s UserService) Login(c context.Context, ulr request.UserLogin) (*response.
 
 	err := validator.ValidateStruct(ulr)
 	if err != nil {
-		return nil, err
+		return nil, server.ErrBadRequest(err)
 	}
 
 	//TODO: aq unda daematos  password gacheqva
@@ -75,7 +75,7 @@ func (s UserService) Login(c context.Context, ulr request.UserLogin) (*response.
 
 	token, _ := auth.CreateJWT(ulr.Email)
 	if token == "" {
-		return nil, fmt.Errorf("internal server error")
+		return nil, server.ErrInternalDomain(err)
 	}
 
 	ret := response.SuccessfulLoginResponse{
