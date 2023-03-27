@@ -10,6 +10,7 @@ import (
 	"github.com/lukamindo/pet-reminder/app/response"
 	"github.com/lukamindo/pet-reminder/helper/auth"
 	"github.com/lukamindo/pet-reminder/helper/encrypt"
+	"github.com/lukamindo/pet-reminder/helper/validator"
 )
 
 type UserService struct {
@@ -25,9 +26,12 @@ func NewUserService(connDB *sqlx.DB) UserService {
 
 // Register method for users to register
 func (s UserService) Register(c context.Context, urr request.UserRegister) (*response.Player, error) {
-	if urr.Username == "" || urr.Email == "" || urr.Password == "" {
-		return nil, fmt.Errorf("bad request")
+
+	err := validator.ValidateStruct(urr)
+	if err != nil {
+		return nil, err
 	}
+
 	hashedPwd, err := encrypt.Password(urr.Password)
 	if err != nil {
 		return nil, fmt.Errorf("internal server error, while encrypting password")
@@ -53,8 +57,10 @@ func (s UserService) Register(c context.Context, urr request.UserRegister) (*res
 
 // los Used for Signing In the Users
 func (s UserService) Login(c context.Context, ulr request.UserLogin) (*response.SuccessfulLoginResponse, error) {
-	if ulr.Email == "" || ulr.Password == "" {
-		return nil, fmt.Errorf("bad request")
+
+	err := validator.ValidateStruct(ulr)
+	if err != nil {
+		return nil, err
 	}
 
 	//TODO: aq unda daematos  password gacheqva

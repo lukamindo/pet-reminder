@@ -1,9 +1,10 @@
 package auth
 
 import (
+	"os"
 	"time"
 
-	jwt "github.com/golang-jwt/jwt/v5"
+	jwt "github.com/golang-jwt/jwt/v4"
 )
 
 // Claims is  a struct that will be encoded to a JWT.
@@ -13,11 +14,11 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-var jwtSecretKey = []byte("jwt_secret_key")
+var jwtSecretKey = []byte(os.Getenv("JWT_SECRET_KEY"))
 
 // CreateJWT func will used to create the JWT while signing in and signing out
 func CreateJWT(email string) (string, error) {
-	expirationTime := time.Now().Add(5 * time.Minute)
+	expirationTime := time.Now().Add(5 * time.Hour)
 	claims := &Claims{
 		Email: email,
 		RegisteredClaims: jwt.RegisteredClaims{
