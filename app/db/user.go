@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/jmoiron/sqlx"
+	"github.com/lukamindo/pet-reminder/app/response"
 )
 
 type (
@@ -61,4 +62,13 @@ func UserCreate(c context.Context, db sqlx.ExtContext, user User) (*int, error) 
 		return nil, err
 	}
 	return &playerID, nil
+}
+
+func (u User) Response() response.User {
+	return response.User{
+		ID:        u.ID,
+		Username:  u.Username,
+		Email:     u.Email,
+		CreatedAt: u.CreatedAt,
+	}
 }

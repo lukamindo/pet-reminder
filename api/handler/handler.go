@@ -7,6 +7,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	echojwt "github.com/labstack/echo-jwt"
 	"github.com/labstack/echo/v4"
+	"github.com/lukamindo/pet-reminder/app/constant"
 	"github.com/lukamindo/pet-reminder/app/domain"
 	"github.com/lukamindo/pet-reminder/helper/auth"
 	"github.com/lukamindo/pet-reminder/helper/conn"
@@ -14,22 +15,29 @@ import (
 
 func New(e *echo.Echo) {
 	usersGroup(e.Group("/users"))
-	testGroup(e.Group("/test"))
+	blockedGroup(e.Group("/test"))
+	socialAuthGroup(e.Group("/auth"))
+}
+
+func socialAuthGroup(g *echo.Group) {
+	g.GET("/login/google", googleLogin())
+	g.GET("/google/callback", googleCallback())
+	g.GET("/login/facebook", facebookLogin())
+	g.GET("/facebook/callback", facebookCallback())
 }
 
 func usersGroup(g *echo.Group) {
 	as := domain.NewUserService(conn.New())
 	g.POST("/register", userRegisterHandler(as))
 	g.POST("/login", UserLoginHandler(as))
-	// g.GET("/login/facebook", InitFacebookLogin())
-	// g.GET("/facebook/callback", HandleFacebookLogin())
 }
-func testGroup(g *echo.Group) {
+
+func blockedGroup(g *echo.Group) {
 	config := echojwt.Config{
 		NewClaimsFunc: func(c echo.Context) jwt.Claims {
 			return new(auth.Claims)
 		},
-		SigningKey: []byte(os.Getenv("JWT_SECRET_KEY")),
+		SigningKey: []byte(os.Getenv(constant.EnvJWT_SECRET_KEY)),
 	}
 	g.Use(echojwt.WithConfig(config))
 	g.GET("", blocked)

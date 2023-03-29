@@ -5,22 +5,21 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-
 	"github.com/lukamindo/pet-reminder/helper/auth"
 	"github.com/lukamindo/pet-reminder/helper/server"
 )
 
-// facebookLogin function will initiate the Facebook Login
-func facebookLogin() echo.HandlerFunc {
+// googleLogin function will initiate the Facebook Login
+func googleLogin() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		OAuth2Config := auth.FacebookGetOAuthConfig()
-		url := OAuth2Config.AuthCodeURL(auth.FacebookGetRandomOAuthStateString())
+		OAuth2Config := auth.GoogleGetOAuthConfig()
+		url := OAuth2Config.AuthCodeURL(auth.GoogleGetRandomOAuthStateString())
 		return c.Redirect(http.StatusTemporaryRedirect, url)
 	}
 }
 
-// facebookCallback function will handle the Facebook Login Callback
-func facebookCallback() echo.HandlerFunc {
+// googleCallback function will handle the Google Login Callback
+func googleCallback() echo.HandlerFunc {
 	return func(c echo.Context) error {
 
 		// get params
@@ -28,12 +27,12 @@ func facebookCallback() echo.HandlerFunc {
 		state := c.QueryParam("state")
 
 		// compare states
-		if state != auth.FacebookGetRandomOAuthStateString() {
+		if state != auth.GoogleGetRandomOAuthStateString() {
 			return server.ErrBadRequest(errors.New("state is incorrect"))
 		}
 
 		// config
-		OAuth2Config := auth.FacebookGetOAuthConfig()
+		OAuth2Config := auth.GoogleGetOAuthConfig()
 
 		// exchange code for token
 		token, err := OAuth2Config.Exchange(c.Request().Context(), code)
@@ -41,8 +40,8 @@ func facebookCallback() echo.HandlerFunc {
 			return server.ErrBadRequest(err)
 		}
 
-		// use facebook api to get user info
-		user, err := auth.FacebookGetUserInfo(OAuth2Config, token)
+		// use google api to get user info
+		user, err := auth.GoogleGetUserInfo(OAuth2Config, token)
 		if err != nil {
 			return err
 		}

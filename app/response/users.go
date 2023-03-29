@@ -3,8 +3,8 @@ package response
 import "time"
 
 type (
-	// Player model
-	Player struct {
+	// User model
+	User struct {
 		ID        int       `json:"id"`
 		Username  string    `json:"username"`
 		Email     string    `json:"email"`
@@ -13,7 +13,7 @@ type (
 
 	// TODO: ლოგინი რო გაკეთდება ჩასახედია აქ
 	SuccessfulLoginResponse struct {
-		Email     string `json:"email"`
+		User      User   `json:"user"`
 		AuthToken string `json:"token"`
 	}
 )

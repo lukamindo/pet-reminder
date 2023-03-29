@@ -17,14 +17,11 @@ func userRegisterHandler(s domain.UserService) echo.HandlerFunc {
 			return server.ErrBadRequest(err)
 		}
 
-		user, err := s.Register(c.Request().Context(), urr)
-		if user == nil {
-			return err
-		}
+		registerResponse, err := s.Register(c.Request().Context(), urr)
 		if err != nil {
-			return err
+			return server.ErrInternalDB(err)
 		}
-		return server.Success(c, user)
+		return server.Success(c, registerResponse)
 	}
 }
 
@@ -39,9 +36,6 @@ func UserLoginHandler(s domain.UserService) echo.HandlerFunc {
 		}
 
 		loginResponse, err := s.Login(c.Request().Context(), ulr)
-		if loginResponse == nil {
-			return err
-		}
 		if err != nil {
 			return err
 		}

@@ -2,6 +2,7 @@ package domain
 
 import (
 	"context"
+	"errors"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/lukamindo/pet-reminder/app/db"
@@ -25,7 +26,7 @@ func NewUserService(connDB *sqlx.DB) UserService {
 }
 
 // Register method for users to register
-func (s UserService) Register(c context.Context, urr request.UserRegister) (*response.Player, error) {
+func (s UserService) Register(c context.Context, urr request.UserRegister) (*response.User, error) {
 
 	err := validator.ValidateStruct(urr)
 	if err != nil {
@@ -48,7 +49,7 @@ func (s UserService) Register(c context.Context, urr request.UserRegister) (*res
 		return nil, server.ErrInternalDomain(err)
 	}
 
-	ret := response.Player{
+	ret := response.User{
 		Email: urr.Email,
 	}
 
@@ -58,28 +59,36 @@ func (s UserService) Register(c context.Context, urr request.UserRegister) (*res
 // los Used for Signing In the Users
 func (s UserService) Login(c context.Context, ulr request.UserLogin) (*response.SuccessfulLoginResponse, error) {
 
+	// Validate req Struct
 	err := validator.ValidateStruct(ulr)
 	if err != nil {
 		return nil, server.ErrBadRequest(err)
 	}
 
-	//TODO: aq unda daematos  password gacheqva
+	// Get User
+	user, err := db.UserByEmail(c, s.connDB, ulr.Email)
+	if user == nil {
+		return nil, server.ErrBadRequest(errors.New("Incorrect email or password"))
+	}
+	if err != nil {
+		return nil, server.ErrInternalDB(err)
+	}
 
-	// user, err := db.UserByEmail(c, s.connDB, ulr.Email)
-	// if user == nil {
-	// 	return nil, fmt.Errorf("internal db")
-	// }
-	// if err != nil {
-	// 	return nil, err
-	// }
+	// Check password
+	isValidPwd := encrypt.CheckPassword(user.Password, ulr.Password)
+	if !isValidPwd {
+		return nil, server.ErrBadRequest(errors.New("Incorrect email or password"))
+	}
 
-	token, _ := auth.CreateJWT(ulr.Email)
-	if token == "" {
+	// Create JWT token
+	token, err := auth.CreateJWT(ulr.Email)
+	if err != nil {
 		return nil, server.ErrInternalDomain(err)
 	}
 
+	// Create and send SuccessfulLoginResponse struct with token
 	ret := response.SuccessfulLoginResponse{
-		Email:     ulr.Email,
+		User:      user.Response(),
 		AuthToken: token,
 	}
 	return &ret, nil
