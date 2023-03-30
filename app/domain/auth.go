@@ -25,7 +25,7 @@ func NewUserService(connDB *sqlx.DB) UserService {
 	}
 }
 
-// Register method for users to register
+// Register method creates user in DB
 func (s UserService) Register(c context.Context, urr request.UserRegister) (*response.User, error) {
 
 	err := validator.ValidateStruct(urr)
@@ -56,7 +56,7 @@ func (s UserService) Register(c context.Context, urr request.UserRegister) (*res
 	return &ret, nil
 }
 
-// los Used for Signing In the Users
+// Login is for Signing In the Users
 func (s UserService) Login(c context.Context, ulr request.UserLogin) (*response.SuccessfulLoginResponse, error) {
 
 	// Validate req Struct
