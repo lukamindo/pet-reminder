@@ -68,7 +68,7 @@ func (s UserService) Login(c context.Context, ulr request.UserLogin) (*response.
 	// Get User
 	user, err := db.UserByEmail(c, s.connDB, ulr.Email)
 	if user == nil {
-		return nil, server.ErrBadRequest(errors.New("Incorrect email or password"))
+		return nil, server.ErrBadRequest(errors.New("incorrect email or password"))
 	}
 	if err != nil {
 		return nil, server.ErrInternalDB(err)
@@ -77,7 +77,7 @@ func (s UserService) Login(c context.Context, ulr request.UserLogin) (*response.
 	// Check password
 	isValidPwd := encrypt.CheckPassword(user.Password, ulr.Password)
 	if !isValidPwd {
-		return nil, server.ErrBadRequest(errors.New("Incorrect email or password"))
+		return nil, server.ErrBadRequest(errors.New("incorrect email or password"))
 	}
 
 	// Create JWT token

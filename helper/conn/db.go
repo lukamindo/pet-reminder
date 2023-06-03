@@ -16,12 +16,12 @@ func New() *sqlx.DB {
 	return client
 }
 
-// ConnectDatabase is used to connect the MongoDB database
+// ConnectDatabase is used to connect the postgres database
 func connectDatabase() {
 	var err error
-
 	log.Println("Database connecting...")
-	// Connect to MongoDB
+
+	// Connect to postgres
 	client, err = sqlx.Connect("postgres", "user=root password=secret dbname=root sslmode=disable")
 	if err != nil {
 		log.Println("Database Connection Failed!")
