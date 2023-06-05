@@ -10,4 +10,12 @@ const (
 	EnvGoogleClientID       = "GOOGLE_CLIENT_ID"
 	EnvGoogleClientSecret   = "GOOGLE_CLIENT_SECRET"
 	EnvGoogleRedirectURL    = "GOOGLE_REDIRECT_URL"
+
+	// db
+	DBHostKey   string = "DB_HOST"
+	DBUserKey   string = "DB_USER"
+	DBPassKey   string = "DB_PASS"
+	DBPortKey   string = "DB_PORT"
+	DBDBNameKey string = "DB_DB_NAME"
+	DBSSLMode   string = "DB_SSL_MODE"
 )
