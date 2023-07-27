@@ -1,26 +1,25 @@
-version: '3.8'
+# version: '3.8'
 
-services:
+# services:
+#   api:
+#     container_name: web-api
+#     build: 
+#       context: .
+#     ports:
+#       - 1323:1323
+#     depends_on:
+#       - postgres
+#     env_file:
+#       - .env
 
-  postgres:
-    container_name: postgres
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: testdb
-    ports:
-      - "5432:5432"
-    volumes:
-      - dbdata:/var/lib/postgresql/data
-  go:
-    container_name: go
-    env_file:
-      - .env
-    build:
-      context: .
-    depends_on:
-      - "postgres"
-
-volumes:
-  dbdata:
+#   postgres:
+#     container_name: postgres-db
+#     image: postgres:latest
+#     ports:
+#       - 5432:5432
+#     restart: always
+#     environment:
+#       POSTGRES_USER: user
+#       POSTGRES_PASSWORD: mypassword
+#       POSTGRES_DB: testdb
+   
