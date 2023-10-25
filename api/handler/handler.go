@@ -8,7 +8,7 @@ import (
 
 func New(e *echo.Echo) {
 	usersGroup(e.Group("/users"))
-	petGroup(e.Group("/pet"))
+	petGroup(e.Group("/pets"))
 	// blockedGroup(e.Group("/test"))
 	// socialAuthGroup(e.Group("/auth"))
 }
@@ -21,12 +21,19 @@ func New(e *echo.Echo) {
 // }
 
 func usersGroup(g *echo.Group) {
-	as := domain.NewUserService(conn.New())
-	g.POST("/register", userRegisterHandler(as))
-	g.POST("/login", UserLoginHandler(as))
+	us := domain.NewUserService(conn.New())
+	g.POST("/register", userRegister(us))
+	g.POST("/login", userLogin(us))
 }
 
 func petGroup(g *echo.Group) {
+	ps := domain.NewPetService(conn.New())
+	g.POST("/create", petCreate(ps))
+	g.GET("", petList(ps))
+	g.GET("/:id", petByID(ps))
+	g.PUT("/:id", petUpdateByID(ps))
+	g.DELETE("/:id", petDeleteByID(ps))
+
 }
 
 // func blockedGroup(g *echo.Group) {
