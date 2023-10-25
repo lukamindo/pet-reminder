@@ -28,7 +28,7 @@ func main() {
 	// Initialize Echo
 	e := echo.New()
 	e.GET("/health", func(c echo.Context) error {
-		return c.String(http.StatusOK, "I am we-api and i am good!")
+		return c.String(http.StatusOK, "i am pet reminder api and i am good!")
 	})
 
 	// Middleware
