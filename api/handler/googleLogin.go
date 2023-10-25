@@ -1,51 +1,51 @@
 package handler
 
-import (
-	"errors"
-	"net/http"
+// import (
+// 	"errors"
+// 	"net/http"
 
-	"github.com/labstack/echo/v4"
-	"github.com/lukamindo/pet-reminder/helper/auth"
-	"github.com/lukamindo/pet-reminder/helper/server"
-)
+// 	"github.com/labstack/echo/v4"
+// 	"github.com/lukamindo/pet-reminder/helper/auth"
+// 	"github.com/lukamindo/pet-reminder/helper/server"
+// )
 
-// googleLogin function will initiate the Facebook Login
-func googleLogin() echo.HandlerFunc {
-	return func(c echo.Context) error {
-		OAuth2Config := auth.GoogleGetOAuthConfig()
-		url := OAuth2Config.AuthCodeURL(auth.GoogleGetRandomOAuthStateString())
-		return c.Redirect(http.StatusTemporaryRedirect, url)
-	}
-}
+// // googleLogin function will initiate the Facebook Login
+// func googleLogin() echo.HandlerFunc {
+// 	return func(c echo.Context) error {
+// 		OAuth2Config := auth.GoogleGetOAuthConfig()
+// 		url := OAuth2Config.AuthCodeURL(auth.GoogleGetRandomOAuthStateString())
+// 		return c.Redirect(http.StatusTemporaryRedirect, url)
+// 	}
+// }
 
-// googleCallback function will handle the Google Login Callback
-func googleCallback() echo.HandlerFunc {
-	return func(c echo.Context) error {
+// // googleCallback function will handle the Google Login Callback
+// func googleCallback() echo.HandlerFunc {
+// 	return func(c echo.Context) error {
 
-		// get params
-		code := c.QueryParam("code")
-		state := c.QueryParam("state")
+// 		// get params
+// 		code := c.QueryParam("code")
+// 		state := c.QueryParam("state")
 
-		// compare states
-		if state != auth.GoogleGetRandomOAuthStateString() {
-			return server.ErrBadRequest(errors.New("state is incorrect"))
-		}
+// 		// compare states
+// 		if state != auth.GoogleGetRandomOAuthStateString() {
+// 			return server.ErrBadRequest(errors.New("state is incorrect"))
+// 		}
 
-		// config
-		OAuth2Config := auth.GoogleGetOAuthConfig()
+// 		// config
+// 		OAuth2Config := auth.GoogleGetOAuthConfig()
 
-		// exchange code for token
-		token, err := OAuth2Config.Exchange(c.Request().Context(), code)
-		if err != nil {
-			return server.ErrBadRequest(err)
-		}
+// 		// exchange code for token
+// 		token, err := OAuth2Config.Exchange(c.Request().Context(), code)
+// 		if err != nil {
+// 			return server.ErrBadRequest(err)
+// 		}
 
-		// use google api to get user info
-		user, err := auth.GoogleGetUserInfo(OAuth2Config, token)
-		if err != nil {
-			return err
-		}
+// 		// use google api to get user info
+// 		user, err := auth.GoogleGetUserInfo(OAuth2Config, token)
+// 		if err != nil {
+// 			return err
+// 		}
 
-		return server.Success(c, user)
-	}
-}
+// 		return server.Success(c, user)
+// 	}
+// }
