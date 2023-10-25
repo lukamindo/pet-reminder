@@ -1,2 +1,9 @@
-run:
-	@ go build -o ./build/ .  && ./build/pet-reminder
+build:
+	@go build -o bin/pet-reminder
+
+run: build
+	@./bin/pet-reminder
+
+test: 
+	@go test -v ./...c
+	

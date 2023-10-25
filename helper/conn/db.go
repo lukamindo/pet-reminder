@@ -35,13 +35,13 @@ func config() Config {
 func New() *sqlx.DB {
 	if client == nil {
 		config := config()
-		config.ConnectDatabase()
+		config.connectDatabase()
 	}
 	return client
 }
 
 // ConnectDatabase is used to connect the postgres database
-func (c Config) ConnectDatabase() {
+func (c Config) connectDatabase() {
 	var err error
 	log.Println("Database connecting...")
 	// Connect to postgres
