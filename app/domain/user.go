@@ -9,6 +9,7 @@ import (
 	"github.com/lukamindo/pet-reminder/app/db"
 	"github.com/lukamindo/pet-reminder/app/request"
 	"github.com/lukamindo/pet-reminder/app/response"
+	"github.com/lukamindo/pet-reminder/helper/auth"
 	"github.com/lukamindo/pet-reminder/helper/encrypt"
 	"github.com/lukamindo/pet-reminder/helper/server"
 	"github.com/lukamindo/pet-reminder/helper/validator"
@@ -39,10 +40,6 @@ func (s UserService) Register(c context.Context, urr request.UserRegister) (*res
 	if err != nil {
 		return nil, server.ErrInternalDB(err)
 	}
-	// token, err := auth.CreateJWT(urr.Email)
-	// if token == "" {
-	// 	return nil, server.ErrInternalDomain(err)
-	// }
 	ret := response.User{
 		ID:       *userID,
 		Username: urr.Username,
@@ -72,16 +69,15 @@ func (s UserService) Login(c context.Context, ulr request.UserLogin) (*response.
 	if !isValidPwd {
 		return nil, server.ErrBadRequest(errors.New("incorrect email or password"))
 	}
-	// // Create JWT token
-	// token, err := auth.CreateJWT(ulr.Email)
-	// if err != nil {
-	// 	return nil, server.ErrInternalDomain(err)
-	// }
-
+	// Create JWT token
+	token, err := auth.CreateJWT(ulr.Email)
+	if err != nil {
+		return nil, server.ErrInternalDomain(err)
+	}
 	// Create and send SuccessfulLoginResponse struct with token
 	ret := response.SuccessfulLoginResponse{
 		User:      user.Response(),
-		AuthToken: "JWT_TOKEN-TODO",
+		AuthToken: token,
 	}
 	return &ret, nil
 }
