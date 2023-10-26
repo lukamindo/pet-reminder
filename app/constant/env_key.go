@@ -1,6 +1,9 @@
 package constant
 
 const (
+	ServerPort  = "SERVER_PORT"
+	Environment = "ENVIRONMENT"
+
 	EnvJWT_SECRET_KEY = "JWT_SECRET_KEY"
 
 	// socials

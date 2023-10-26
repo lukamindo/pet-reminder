@@ -13,7 +13,7 @@ import (
 	"gopkg.in/fsnotify.v1"
 )
 
-const defaultPeriod = time.Second * 1
+const defaultPeriod = time.Second * 2
 
 // Exported variables
 var (
@@ -79,8 +79,7 @@ func isChangedByStat() bool {
 			startFileInfo = fileinfo
 			return false
 		}
-		//asdasd
-
+		// non-first update
 		if startFileInfo.ModTime() != fileinfo.ModTime() ||
 			startFileInfo.Size() != fileinfo.Size() {
 			return true
@@ -167,7 +166,7 @@ func watchFileChanges() {
 }
 
 func rebuild() {
-	cmd := exec.Command("go", "build", "-o", "./build", "./")
+	cmd := exec.Command("go", "build", "-o", "bin/pet-reminder")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	err := cmd.Run()

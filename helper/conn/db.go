@@ -43,11 +43,10 @@ func New() *sqlx.DB {
 // ConnectDatabase is used to connect the postgres database
 func (c Config) connectDatabase() {
 	var err error
-	log.Println("Database connecting...")
+	// log.Println("Database connecting...")
 	// Connect to postgres
 	client, err = sqlx.Connect("postgres", c.dbConnectionString())
 	if err != nil {
-		log.Println("Database Connection Failed!")
 		log.Fatal(err)
 	}
 	// Check the connection
@@ -55,7 +54,7 @@ func (c Config) connectDatabase() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("Database Connected.")
+	// log.Println("Database Connected.")
 }
 
 func (c Config) dbConnectionString() string {
