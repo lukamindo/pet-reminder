@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/lukamindo/pet-reminder/app/constant"
-	"github.com/lukamindo/pet-reminder/helper/watcher"
+	"github.com/lukamindo/pet-reminder/pkg/watcher"
 )
 
 type Starter func(string) error

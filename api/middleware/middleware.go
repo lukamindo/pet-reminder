@@ -5,7 +5,7 @@ import (
 
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/lukamindo/pet-reminder/app/constant"
-	"github.com/lukamindo/pet-reminder/helper/auth"
+	"github.com/lukamindo/pet-reminder/pkg/auth"
 )
 
 var jwtSecretKey = []byte(os.Getenv(constant.EnvJWT_SECRET_KEY))

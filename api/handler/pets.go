@@ -8,8 +8,8 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/lukamindo/pet-reminder/app/domain"
 	"github.com/lukamindo/pet-reminder/app/request"
-	"github.com/lukamindo/pet-reminder/helper/auth"
-	"github.com/lukamindo/pet-reminder/helper/server"
+	"github.com/lukamindo/pet-reminder/pkg/auth"
+	"github.com/lukamindo/pet-reminder/pkg/server"
 )
 
 func petCreate(s domain.PetService) echo.HandlerFunc {

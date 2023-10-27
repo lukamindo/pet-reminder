@@ -9,8 +9,8 @@ import (
 	"github.com/lukamindo/pet-reminder/app/db"
 	"github.com/lukamindo/pet-reminder/app/request"
 	"github.com/lukamindo/pet-reminder/app/response"
-	"github.com/lukamindo/pet-reminder/helper/server"
-	"github.com/lukamindo/pet-reminder/helper/validator"
+	"github.com/lukamindo/pet-reminder/pkg/server"
+	"github.com/lukamindo/pet-reminder/pkg/validator"
 )
 
 type PetService struct {
@@ -58,7 +58,7 @@ func (s PetService) ByID(c context.Context, id int) (*response.Pet, error) {
 		return nil, server.ErrInternalDB(err)
 	}
 	if pet == nil {
-		return nil, server.ErrBadRequest(fmt.Errorf("bad pet id"))
+		return nil, server.ErrBadRequest(fmt.Errorf("pet with id: %v not found", id))
 	}
 	resp := pet.Response()
 	return &resp, nil

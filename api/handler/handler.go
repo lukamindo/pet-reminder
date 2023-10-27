@@ -4,7 +4,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/lukamindo/pet-reminder/api/middleware"
 	"github.com/lukamindo/pet-reminder/app/domain"
-	"github.com/lukamindo/pet-reminder/helper/conn"
+	"github.com/lukamindo/pet-reminder/pkg/conn"
 )
 
 func New(e *echo.Echo) {

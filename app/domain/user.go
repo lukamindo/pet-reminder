@@ -9,10 +9,10 @@ import (
 	"github.com/lukamindo/pet-reminder/app/db"
 	"github.com/lukamindo/pet-reminder/app/request"
 	"github.com/lukamindo/pet-reminder/app/response"
-	"github.com/lukamindo/pet-reminder/helper/auth"
-	"github.com/lukamindo/pet-reminder/helper/encrypt"
-	"github.com/lukamindo/pet-reminder/helper/server"
-	"github.com/lukamindo/pet-reminder/helper/validator"
+	"github.com/lukamindo/pet-reminder/pkg/auth"
+	"github.com/lukamindo/pet-reminder/pkg/encrypt"
+	"github.com/lukamindo/pet-reminder/pkg/server"
+	"github.com/lukamindo/pet-reminder/pkg/validator"
 )
 
 type UserService struct {

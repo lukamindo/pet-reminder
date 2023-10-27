@@ -5,8 +5,8 @@ package handler
 // 	"net/http"
 
 // 	"github.com/labstack/echo/v4"
-// 	"github.com/lukamindo/pet-reminder/helper/auth"
-// 	"github.com/lukamindo/pet-reminder/helper/server"
+// 	"github.com/lukamindo/pet-reminder/pkg/auth"
+// 	"github.com/lukamindo/pet-reminder/pkg/server"
 // )
 
 // // googleLogin function will initiate the Facebook Login

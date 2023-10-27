@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/lukamindo/pet-reminder/app/constant"
-	"github.com/lukamindo/pet-reminder/helper/server"
+	"github.com/lukamindo/pet-reminder/pkg/server"
 	"golang.org/x/oauth2"
 	facebookOAuth "golang.org/x/oauth2/facebook"
 )
