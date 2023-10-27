@@ -1,6 +1,6 @@
 module github.com/lukamindo/pet-reminder
 
-go 1.19
+go 1.21
 
 require (
 	github.com/go-playground/validator/v10 v10.12.0
@@ -8,6 +8,7 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/labstack/echo/v4 v4.9.2-0.20221125112752-466bf80e418b
+	github.com/labstack/gommon v0.4.0
 	github.com/lib/pq v1.2.0
 	golang.org/x/crypto v0.7.0
 	golang.org/x/oauth2 v0.6.0
@@ -20,7 +21,6 @@ require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/leodido/go-urn v1.2.2 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
