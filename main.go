@@ -18,18 +18,19 @@ import (
 //TODO:
 /*
 
-1. echo gavitano calke
+1. echo gavitano calke +++
+2. logger unda davamato
+3. validator მივაბა echos
 
 
 */
 func init() {
+	// Connect to DB
 	conn.New()
 
 }
 
 func main() {
-	// Connect to DB
-
 	// Initialize Echo
 	e := server.Echo()
 
@@ -41,16 +42,13 @@ func main() {
 	// Router
 	handler.New(e)
 
-	// Listen and Serve
+	// Start Server
 	go server.Start(e.Start, os.Getenv(constant.Environment) == "dev")
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer func() {
-		// deferCB()
-		cancel()
-	}()
+	defer cancel()
 	if err := e.Shutdown(ctx); err != nil {
 		log.Panic(err)
 	}

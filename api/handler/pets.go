@@ -4,20 +4,18 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 	"github.com/lukamindo/pet-reminder/app/domain"
 	"github.com/lukamindo/pet-reminder/app/request"
-	"github.com/lukamindo/pet-reminder/pkg/auth"
 	"github.com/lukamindo/pet-reminder/pkg/server"
 )
 
 func petCreate(s domain.PetService) echo.HandlerFunc {
 	return func(c echo.Context) error {
 
-		user := c.Get("user").(*jwt.Token)
-		claims := user.Claims.(*auth.Claims)
-		fmt.Println(claims.Email)
+		// user := c.Get("user").(*jwt.Token)
+		// claims := user.Claims.(*auth.Claims)
+		// fmt.Println(claims.Email)
 
 		var pcr request.PetCreate
 		err := c.Bind(&pcr)
